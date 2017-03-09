@@ -5,6 +5,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context="scorecard.project.com.newsreaderapp.MainActivity">
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -22,6 +23,7 @@
 
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
     <ProgressBar
         android:id="@+id/progressBar1"
         style="?android:attr/progressBarStyleLargeInverse"
@@ -29,9 +31,23 @@
         android:layout_height="48dp"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"/>
-    <TextView
+
+    <ImageView
+        android:id="@+id/empty_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/empty_text_view"
         android:layout_centerInParent="true"/>
+
+    <TextView
+        android:id="@+id/empty_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/empty_image_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="sans-serif-condensed"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+
 </RelativeLayout>
