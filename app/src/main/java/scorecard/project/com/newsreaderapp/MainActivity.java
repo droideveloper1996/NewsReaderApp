@@ -19,15 +19,18 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements LoaderCallbacks<ArrayList<News>> {
+    android.app.LoaderManager loaderManager;
     private ListView mListView;
     private NewsAdapter newsAdapter;
     private ArrayList<News> news;
     private TextView mEmptyTExtView;
     private ProgressBar progressBar;
-
-    android.app.LoaderManager loaderManager;
     private SwipeRefreshLayout swipeRefreshLayout;
     private String URL_TO_FETCH = "https://content.guardianapis.com/search?q=cricket&order-by=newest&api-key=24e0000b-55d7-4c59-8994-44471580c508";
+
+    public static void BC() {
+        Log.i("hello world", "This is some prohject");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,23 +80,10 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
             @Override
             public void onRefresh() {
                 Log.i("onRefresh Triggered", "Fetching data");
-               newsAdapter.clear();
-              //  newsAdapter.add(new News("Abhishek", "Kushwaha", "Time", "Android", "https://www.google.com"));
+                newsAdapter.clear();
 
-               /* final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        String mUrl = "https://content.guardianapis.com/search?q=debate&from-date=2014-01-01&api-key=test";
-                        NewsLoader newsLoader = new NewsLoader(MainActivity.this, mUrl);
-                        newsLoader.onStartLoading();
-                        List<News> newsList=newsLoader.loadInBackground();
 
-                        newsAdapter.addAll(newsList);
-
-                    }
-                }, 2000);*/
-                loaderManager.initLoader(4, null,MainActivity.this);
+                loaderManager.initLoader(4, null, MainActivity.this);
 
 
                 swipeRefreshLayout.setRefreshing(false);
@@ -103,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
         });
         loaderManager.destroyLoader(4);
     }
-
 
     @Override
     public void onLoaderReset(Loader<ArrayList<News>> loader) {
