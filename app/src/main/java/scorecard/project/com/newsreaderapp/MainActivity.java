@@ -28,9 +28,6 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
     private SwipeRefreshLayout swipeRefreshLayout;
     private String URL_TO_FETCH = "https://content.guardianapis.com/search?q=cricket&order-by=newest&api-key=24e0000b-55d7-4c59-8994-44471580c508";
 
-    public static void BC() {
-        Log.i("hello world", "This is some prohject");
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +44,16 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
         loaderManager = getLoaderManager();
         loaderManager.initLoader(1, null, this);
         mListView.setEmptyView(mEmptyTExtView);
+        mListView.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-
+                String url = String.valueOf(newsAdapter.getItem(i).getMwebUrl());
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -62,17 +67,6 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
         progressBar.setVisibility(View.GONE);
         if (data != null && !data.isEmpty()) {
             newsAdapter.addAll(data);
-            mListView.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                    String url = String.valueOf(newsAdapter.getItem(i).getMwebUrl());
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(url));
-                    startActivity(intent);
-                }
-            });
-
         } else {
             mEmptyTExtView.setText(R.string.no_data_found);
         }
@@ -81,17 +75,11 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
             public void onRefresh() {
                 Log.i("onRefresh Triggered", "Fetching data");
                 newsAdapter.clear();
-
-
-                loaderManager.initLoader(4, null, MainActivity.this);
-
-
+                loaderManager.restartLoader(4, null, MainActivity.this);
                 swipeRefreshLayout.setRefreshing(false);
             }
-
-
         });
-        loaderManager.destroyLoader(4);
+
     }
 
     @Override
